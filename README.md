@@ -1,11 +1,11 @@
-# deIndex server
+# autofocus
 
-Server for deIndex.
+Server for autofocus.
 
 
-### What is deIndex?
+### What is autofocus?
 
-deIndex server is a fast, light, scalable, photo indexer.
+Autofocus server is a fast, light, scalable, photo indexer.
 
 
 ### How are we indexing?
@@ -29,7 +29,7 @@ on as many computers as possible. Even if they are old.
 
 ### Tools
 
-We have chosen to build deIndex using:
+We have chosen to build autofocus using:
 
 * Python: the language I mostly speak.
 * ReactJS: so our web is responsive, functional and scalable.
