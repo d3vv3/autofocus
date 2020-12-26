@@ -3,7 +3,7 @@ import logging
 from dotenv import load_dotenv
 from database.connector import connect_mongo, create_mongo_url
 from database.common import create_structure
-import iterator
+from helpers import indexer
 
 
 if __name__ == '__main__':
@@ -42,4 +42,6 @@ if __name__ == '__main__':
     library = os.environ.get('IMAGES_LIBRARY', None)
     assert library is not None
 
-    iterator.iterate_library(library)
+    # Iterate library
+
+    indexer.index_library(client, library)
