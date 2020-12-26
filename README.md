@@ -36,3 +36,10 @@ We have chosen to build deIndex using:
 * Flutter: so our app feels native everywhere.
 
 Obviously the tools are not everything. Code must be built efficiently.
+
+### Install (development)
+1. Install `face_recognition` from [here](https://github.com/ageitgey/face_recognition#installation) (dlib included).
+2. Install requirements by `pip install -r requirements.txt`.
+3. Deploy mongodb with `docker run -d --name mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=autofocus -e MONGO_INITDB_ROOT_PASSWORD=apassword mongo`
+4. Edit the `.env` file for your setup.
+5. Start developing!
