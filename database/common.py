@@ -5,7 +5,7 @@ import logging
 def create_database(client, database_name: str):
     try:
         client[database_name]
-        logging.debug('Database %s created in MongoDB' % database_name)
+        logging.info('Database %s created in MongoDB' % database_name)
         return database_name
     except:
         logging.error('Could not create database in MongoDB')
@@ -14,7 +14,7 @@ def create_database(client, database_name: str):
 def create_collection(client, database_name: str, collection_name: str):
     try:
         client[database_name][collection_name]
-        logging.debug('Collection %s was created in %s' % (collection_name,
+        logging.info('Collection %s was created in %s' % (collection_name,
                                                            database_name))
         return collection_name
     except:
@@ -27,3 +27,15 @@ def create_structure(client):
     for collection in collections:
         create_collection(client, database_name, collection)
     return True
+
+
+def index_item(client, collection_name: str, item: dict):
+    try:
+        collection = client['autofocus'][collection_name]
+        collection.insert_one(item)
+        logging.info('Item %s was inserted into %s' % (item, collection_name))
+        return True
+    except:
+        logging.warning('Item %s could not be inserted into %s' % (item,
+                                                                   collection_name))
+        return False
