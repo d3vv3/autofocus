@@ -1,11 +1,11 @@
-# autofocus
+# autofocus-server
 
 Server for autofocus.
 
 
 ### What is autofocus?
 
-Autofocus server is a fast, light, scalable, photo indexer.
+Autofocus server is a fast, light, scalable photo indexer with automatic face and object recognition.
 
 
 ### How are we indexing?
