@@ -6,7 +6,7 @@ from pymongo import MongoClient
 def connect_mongo(db_url: str):
     logging.info('Connecting to MongoDB')
     try:
-        client = MongoClient(db_url)
+        client = MongoClient(db_url, connect=False)
     except:
         logging.error('Could not connect to MongoDB')
         sys.exit()

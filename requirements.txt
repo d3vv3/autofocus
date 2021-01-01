@@ -2,3 +2,5 @@ face_recognition
 python-dotenv
 pymongo
 Pillow
+fastapi
+uvicorn
