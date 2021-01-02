@@ -30,8 +30,13 @@ def setup_library():
     # Get images library
     library = os.environ.get('IMAGES_LIBRARY', None)
     assert library is not None
+    assert os.path.isdir(library)
 
-    return library
+    thumbnails = os.environ.get('THUMBNAILS_FOLDER', None)
+    assert thumbnails is not None
+    assert os.path.isdir(thumbnails)
+
+    return library, thumbnails
 
 def setup_api():
 
@@ -56,6 +61,16 @@ def setup_logging():
     return log_level
 
 
+def setup_resources():
+    cores = int(os.environ.get('CORES_AVAILABLE', 2))
+    assert cores is not None
+    assert cores > 0
+    batch_number = int(os.environ.get('BATCH_SIZE', 100))
+    assert batch_number is not None
+    assert batch_number > 10
+    return cores, batch_number
+
+
 def setup():
 
     # Get .env file
@@ -63,10 +78,11 @@ def setup():
 
     log_level = setup_logging()
     mongo_client = setup_mongodb()
-    library = setup_library()
+    library, thumbnails = setup_library()
     api_port = setup_api()
+    cores, batch_number = setup_resources()
 
-    return mongo_client, library, api_port, log_level
+    return mongo_client, library, thumbnails, api_port, log_level, cores, batch_number
 
 
-mongo_client, library, api_port, log_level = setup()
+mongo_client, library, thumbnails, api_port, log_level, cores, batch_number = setup()
