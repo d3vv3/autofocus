@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 import uvicorn
 from multiprocessing import Process
+import logging
 
 from helpers.indexer import index_library
-from setup import mongo_client, library, api_port, log_level
+from helpers.thumbnails import thumbnail_generator
+from setup import mongo_client, library, api_port, log_level, cores, thumbnails, batch_number
 
 app = FastAPI()
 
@@ -18,8 +20,10 @@ async def read_root():
     return {'Hello': 'World'}
 
 @app.get('/index/{method}', status_code=200)
-async def index(method: str):
-    ''' Spawn the indexer in another thread so the api is not slowed down '''
+async def index(method: str, response: Response):
+    '''
+    Spawn the indexer in another thread so the api is not slowed down
+    '''
     try:
         if method == "quick":
             p = Process(target=index_library, args=(mongo_client, library,))
@@ -34,4 +38,20 @@ async def index(method: str):
     except:
         response.status_code = 500
         return {'message': 'There was an error on starting indexer'}
+    
+@app.get('/create_thumbnails', status_code=200)
+async def create_thumbnails(response: Response):
+    '''
+    Spawn the thumbnail generator in another thread so the api is not slowed down
+    '''
+    try:
+        p = Process(target=thumbnail_generator, args=(mongo_client, cores, thumbnails, batch_number))
+        p.start()
+        return {'message': 'Thumbnails creation has started'}
+    except Exception as e:
+        response.status_code = 500
+        logging.error("There was an error on starting the generation of thumbnails")
+        logging.error(e)
+        return {'message': 'There was an error on starting the generation of thumbnails'}
+
 

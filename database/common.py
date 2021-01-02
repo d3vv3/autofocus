@@ -39,3 +39,25 @@ def index_item(client, collection_name: str, item: dict):
         logging.warning('Item %s could not be inserted into %s' % (item,
                                                                    collection_name))
         return False
+
+
+def paginated_column(client, db_name: str, collection_name: str, column_name: str,
+            page_size: int, page_num: int):
+    '''
+    returns a set of documents belonging to page number `page_num`
+    where size of each page is `page_size`.
+    '''
+    # Calculate number of documents to skip
+    skips = page_size * (page_num - 1)
+
+    # Skip and limit
+    cursor = client[db_name][collection_name].find(
+            {},
+            {column_name: 1}).skip(skips).limit(page_size)
+    data = [x for x in cursor]
+    last_id = skips + len(data)
+    max_id = cursor.count()
+    if not data:
+        return None
+    # Return documents
+    return data, last_id, max_id
